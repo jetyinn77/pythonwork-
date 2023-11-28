@@ -1,0 +1,93 @@
+# Starter file for Project 2
+
+# Name: Jet Yinn
+# Date: 10/18/2022
+# Class: ISIT 333
+# Assignment: Programming Project 2: Rock Paper Scissor
+
+# Opponent Name
+def generate_name():
+    names1 = ["Jeff", "Mark", "John", "Jarvis", "Alex"]
+    names2 = ["Desmond", "Jet", "Mclovin", "Luke", "George"]
+    computer_name = random.choice(names1) + " " + random.choice(names2)
+    return computer_name
+
+# Keeping up with the score based on which character is used
+def get_winner(user_action, computer_action):
+    if user_action == computer_action:
+        print(f"Both players selected {user_action}. It's a tie!")
+        return "tie"
+    elif user_action == "Hulk":
+        if computer_action == "Thor":
+            print("Hulk smashes Thor! You win!")
+            return "player"
+        else:
+            print("Captain America covers Hulk! You lose.")
+            return "computer"
+    elif user_action == "Captain America":
+        if computer_action == "Hulk":
+            print("Captain America covers Hulk! You win!")
+            return "player"
+        else:
+            print("Thor cuts Captain America! You lose.")
+            return "computer"
+    elif user_action == "Thor":
+        if computer_action == "Captain America":
+            print("Thor cuts Captain America ! You win!")
+            return "player"
+        else:
+            print("Hulk smashes Thor! You lose.")
+            return "computer"
+
+
+# Title for the Game
+print("The Marvel Character Rock, Paper, and Scissor Game!")
+print()
+
+# Ask the user their name
+name = input("Enter your name: ")
+user_action = input(
+    f"\nHello {name} would you like to play a game that is rock, paper, and scissors but a marvel character verison? "
+)
+
+# Ask user if they want to play
+if user_action.upper().startswith("N"):
+    print("Thank you. We will see you again if you want to play goodbye")
+    exit()
+
+# Instruction how to play the game
+print(
+    "\nIt's literally rock, paper, scissor you choose one of the three marvel characters and the computer picks the other character and could beat your character depending on your choice"
+)
+print()
+
+
+
+import random
+
+computer_name = generate_name()
+print("Your opponent today is " + computer_name)
+
+user_score = 0
+computer_score = 0
+# Output of the character choice
+while not user_action.upper().startswith("N"):
+    user_action = input(
+        "\nChoose a marvel character (Hulk, Captain America, Thor): ")
+
+    possible_actions = ["Hulk", "Captain America", "Thor"]
+    computer_action = random.choice(possible_actions)
+
+# Computer choice with user choice
+    print(f"\nYou chose {user_action}, computer chose {computer_action}.\n")
+
+    winner = get_winner(user_action, computer_action)
+    if winner == "player":
+        user_score += 1
+    elif winner == "computer":
+        computer_score += 1
+
+    print(
+        f"Your score: {user_score}, {computer_name}\'s score: {computer_score}"
+    )
+    user_action = input("Would you like to play again?")

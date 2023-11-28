@@ -1,0 +1,79 @@
+#ISIT 333 LAB ACTIVITY 1
+# 9/23/22
+# Jet Yinn
+print("* * * * Lab Activity 1 * * * *")
+print()
+
+print("Hello, World!")
+
+print()
+
+print("25 + 700 = ", 25 + 700)
+
+firstName = "Tony"
+print(firstName)
+
+lastName = "Stark"
+print(lastName)
+
+
+print()
+
+
+
+
+print("My name is", firstName, lastName + ".") 
+
+print()
+
+num1 = 22
+print(num1)
+
+print()
+
+num2 = 2022
+print(num2)
+
+print()
+
+print(num1, "x", num2, "=", num1*num2)
+
+print()
+
+
+
+
+print("* * * * Independent Challenge * * * *")
+print()
+
+num3 = int(input("Enter a number: "))
+print(num3)
+
+print()
+
+num4 = int(input("Enter a second number: "))
+print(num4)
+
+print()
+
+print(num3, "x", num4, "=", num3*num4)
+
+print()
+
+print("* * * * My Own Version * * * *")
+print()
+
+num5 = int(input("Enter a number: "))
+print(num5)
+
+print()
+
+num6 = int(input("Enter a second number: "))
+print(num6)
+
+print()
+
+
+print(num5, "-", num6, "=", num5%num6)
+
+print()

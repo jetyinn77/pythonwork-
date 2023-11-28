@@ -1,0 +1,114 @@
+print("Jet Yinn\t11/16/2022\tISIT333\n\nLab 8 Pokemon\n\n")
+print()
+
+print("Welcome to the Pokemon Arena!")
+print()
+# first import pandas
+import pandas as pd
+
+# then save data to a variable "pokemon"
+pokemon = pd.read_csv("pokemon.csv")
+
+## EXAMPLE DATA CALLS - COMMENT OR REMOVE lines 7 - 25 BEFORE SUBMITTING
+
+# print first 5 records
+print()
+print("Top 5 records\n")
+print(pokemon.head(5))
+
+# print information about csv data
+print()
+print("Basic information about the Pokemon data\n")
+print(pokemon.info())
+
+# print statistical information about all records in the data file
+print()
+print("Basic statistical information about the Pokemon data\n")
+print(pokemon.describe())
+
+# print information about the number of unique values in each column
+print()
+print("Information about the number of unique values in each column\n")
+print(pokemon.nunique())
+
+# print the minimum value of HP column - note this should align with the data in the describe() function
+print("The minimum HP value is", pokemon["HP"].min())
+
+i = True
+while (i):
+    print("Menu")
+    print(
+        "1. Print out a report with only the following fields displaying - Name, Type, Generation"
+    )
+    print(
+        "2. Print out a report displaying the name, HP, Attack, Defense, Speed"
+    )
+    print(
+        "3. Create a dataFrame displaying all of the GRASS type Pokemon in the csv file"
+    )
+    print(
+        "4. Create a dataFrame displaying all of the Pokemon in order of HP (highest to lowest)"
+    )
+    print(
+        "5 - Create a dataFrame displaying all of the Pokemon in order of NAME A-Z"
+    )
+    print("6 - Create a dataFrame of all the LEGENDARY Pokemon.")
+    print(
+        "7.Create a search for a name of a Pokemon and return the data associated with the Pokemon. Do a try/except to catch any error or record not found. Allow the user to search multiple times until they choose to exit."
+    )
+    print("8. Exit")
+    ch = int(input("Enter your choice for menu: "))
+    if ch == 1:
+        pokemon_1 = pokemon[["Name", "Type 1", "Type 2", "Generation"]]
+        print(pokemon_1)
+    elif ch == 2:
+        pokemon_2 = [["Name", "HP", "Attack", "Defense", "Speed"]]
+        print(pokemon_2)
+    elif ch == 3:
+        pokemon[pokemon['Type 1'] == 'Grass']
+    elif ch == 4:
+        pokemon.sort_values(by=["HP"], ascending=False)
+    elif ch == 5:
+        pokemon.sort_values(['Name'])
+    elif ch == 6:
+        pokemon.loc[pokemon['Legendary'] == True]
+    elif ch == 7:
+        flag = True
+        while (flag):
+            try:
+                pokemon_name = input(
+                    "Enter the name of the pokemon you want to search for:")
+                pok = pokemon.loc[pokemon['Name'] == pokemon_name]
+                if (pok.empty == True):
+                    print("Record Not Found")
+                else:
+                    print(pok)
+                ans = input("Do you want to search again? (Y/N): ")
+                if ans == "Y" or ans == "y":
+                    flag = True
+                else:
+                    flag = False
+            except e:
+                print(e)
+    elif ch == 8:
+        i = False
+    else:
+        print("Wrong Choice")
+
+# ASSIGNMENT INSTRUCTIONS ---
+
+# BUILD A MENU SYSTEM WITH OPTIONS FOR THE FOLLOWING OPTIONS
+
+# 1 - Print out a report with only the following fields displaying - Name, Type, Generation
+
+# 2 - Print out a report displaying the name, HP, Attack, Defense, Speed
+
+# 3 - Create a dataFrame displaying all of the GRASS type Pokemon in the csv file
+
+# 4 - Create a dataFrame displaying all of the Pokemon in order of HP (highest to lowest)
+
+# 5 - Create a dataFrame displaying all of the Pokemon in order of NAME A-Z
+
+# 6 - Create a dataFrame of all the LEGENDARY Pokemon.
+
+# 7 - Create a search for a name of a Pokemon and return the data associated with the Pokemon. Do a try/except to catch any error or record not found. Allow the user to search multiple times until they choose to exit.

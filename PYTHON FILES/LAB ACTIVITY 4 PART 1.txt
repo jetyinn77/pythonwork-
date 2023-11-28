@@ -1,0 +1,55 @@
+# Starting file for Exercise 6.1 in our textbook
+#ISIT 333
+#Jet Yinn
+#10/10/2022
+
+import statistics
+
+def display_welcome():
+    print("The Test Scores program")
+    print("Enter 'x' to exit")
+    print("")
+
+def get_scores():
+    scores = []
+    while True:
+        score = input("Enter test score: ")
+        if score == "x":
+            return  scores
+        else:
+            score = int(score)
+            if score >= 0 and score <= 100:
+                scores.append(score)
+            else:
+                print("Test score must be from 0 through 100. " +
+                      "Score discarded. Try again.")
+
+def process_scores(scores):
+    total_scores = 0
+    for thisscore in scores:
+      total_scores += thisscore
+
+      average_score = round(total_scores/len(scores))
+
+     
+      median = statistics.median(scores)                            
+                
+    # format and display the result
+    print()
+    print("Score total:       ", total_scores)
+    print("Number of Scores:  ", len(scores))
+    print("Average Score:     ", average_score)
+    print("Lowest Age:  ", min(scores))
+    print("Highest Age:  ", max(scores))
+    print("Median Score:  ", median)
+    
+def main():
+    display_welcome()
+    scores = get_scores()
+    process_scores(scores)
+    print("")
+    print("Bye!")
+
+# if started as the main module, call the main function
+if __name__ == "__main__":
+    main()

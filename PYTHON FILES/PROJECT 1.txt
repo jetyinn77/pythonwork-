@@ -1,0 +1,55 @@
+# Placeholder for Project 1
+# ISIT333 
+# Jet Yinn
+# 10/4/2022
+# Good luck - you've got this! 
+
+
+def topics_menu():
+    topics = input("What topic would you like to discuss? p for Players, c for Coaches, or s for Superbowl: ")
+
+    #print(topics.lower) for testing
+  
+    if topics.lower() == "p":
+      print("Player Info - Top 2 offense in the league. Top 2  defense in the league. Star players - Jalen Hurts, AJ Brown, and Darius Slay")
+      
+    elif topics.lower() == "c":
+      print("Coach Info - Head Coach: Nick Sirianni. Offensive Coordinator: Shane Steichen. Defensive Coordinator: Jonathan Gannon")
+      
+    elif topics.lower() == "s":
+      print("History of the Superbowl- Won 4 Superbowls in 1948, 1949, 1960, and 2018. The 2018 Superbowl was special because the starting QB Carson Wentz got injured before the playoffs occured so the backup QB Nick Foles had to fill in his shoes and ended up beating the great QB that ever lived known as Tom Brady")
+      
+    else:
+      print("Sorry. Invalid input. Please try again")
+print("Hi, there! I am Celestial Dragon your AI Bot",  "What is your name? "  )
+print()
+
+FirstName = input("What is your First Name?: ")
+print(FirstName)
+print()
+
+print("Hello, we will dicuss the NFL team the Philadelpia Eagles! We will have 3 options for this topic the players, coaches, and superbowl")
+print()
+
+play_again = True
+
+
+
+while(play_again):
+
+  topics_menu()
+  topic_again = input("Would you like to try again?: ")
+  if topic_again.lower() == "n":
+    play_again = False
+    
+
+
+    print("Thank you", FirstName, "Would you like to put your email address to stay in touch?: ")
+
+stay_in_touch = input()
+if stay_in_touch.lower() == "y":
+  email = input("Enter your email: ")
+  print("we will stay in touch through", email)
+
+if stay_in_touch.lower() == "n":
+    print("Thank you for your time and have a wonderful day ")

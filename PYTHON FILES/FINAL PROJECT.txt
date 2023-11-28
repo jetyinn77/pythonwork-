@@ -1,0 +1,159 @@
+print("Jet Yinn\t12/2/2022\tISIT333\n\nProject Final Employee Database\n\n")
+# import the sqlite3 database module
+import sqlite3
+import random
+
+global dash
+dash = "-" * 60
+#creates data table
+def setup_db(conn, cursor):
+  
+
+#create the table if it doesn't already exist
+  cursor.execute("CREATE TABLE IF NOT EXISTS employeeData  (id TEXT, first_name TEXT, last_name TEXT, email_address TEXT, phone_number TEXT, address TEXT, city TEXT, province TEXT, postal TEXT, rate TEXT, department TEXT )")
+  conn.commit()
+
+#Create a function to add an employee using the given inputs.
+#Automatically assign a random employee id and 
+#automatically create an email address from their first and last name.
+#Allow the employeeData to input all other fields.
+def add_employee(conn, cursor):
+  print("You have selected add new employee:")
+  print()
+  id = random.randint(1000,9999)
+  first_name = input('Enter First Name: ')
+  last_name = input('Enter Last Name: ')
+  email_address = first_name + last_name + '@yahoo.com '
+  phone_number = input('Enter phone number: ')
+  address = input('Enter address: ')
+  city = input('Enter City: ')
+  province = input('Enter State or Province: ')
+  postal = input('Enter postal code: ')
+  rate = int(input('Enter rate: '))
+  department = input('Enter Department: ')
+
+#prepare your insert statement using ? for each item you will insert
+  sql = """INSERT INTO employeeData (id, first_name, last_name, email_address, phone_number, address, city, province, postal, rate, department) VALUES (?,?,?,?,?,?,?,?,?,?,?)"""
+
+#execute query from inputs
+  cursor.execute(sql, (id, first_name, last_name, email_address, phone_number, address, city, province, postal, rate, department))
+  print("input added, thank you")
+  print()
+  conn.commit()
+  
+#Create a function to list all employee id numbers, names, email addresses, and their department name.
+def list_employee_primary(conn, cursor):
+  print("You have selected list employee department details: ")
+  cursor.execute("SELECT id, first_name, last_name, email_address, department FROM employeeData")
+
+  employee_fetch_1 = cursor.fetchall()
+  for i in employee_fetch_1:
+    print("{0:<2} {1:15} {2:15} {3:15}".format(i[0], i[1], i[2],i[3]))
+  #for i in cursor.fetchall():
+   # print(i)
+
+#Create a function to list all employee names, full addresses, and phone numbers
+def list_employee_secondary(conn, cursor):
+  print("You have selected employee personal information details: ")
+  cursor.execute("SELECT id, first_name, last_name, address, city, province, postal, phone_number FROM employeeData")
+
+  employee_fetch_2 = cursor.fetchall()
+  for i in employee_fetch_2:
+    print("{0:<2} {1:15} {2:15} {3:15} {4:15} {5:15} {6:15}".format(i[0], i[1], i[2], i[3], i[4], i[5], i[6]))
+
+#Create a search function to search for an employee by last name. Then list all of the matches of the last #name, first name, email and department name. (15 points)
+def search_employee(conn, cursor):
+  print("You have selected employee search: ")
+  search_last_name = input("input last name: ")
+  cursor.execute('''SELECT id, last_name, first_name,department FROM employeeData  WHERE last_name = ? COLLATE NOCASE''', (search_last_name,))
+  for i in cursor.fetchall():
+    print(i)
+
+#Create an update hourly rate function that will allow the employeeData to update the hourly rate for a given #employee. (10 points)
+def update_hourly(conn, cursor):
+  print("You have selected employee rate update. Please enter employee's last name to update employee rate: ")
+  last_name_rate_update = input("Enter last name: ")
+  new_hourly_rate = int(input("Enter new rate: "))
+  cursor.execute('''UPDATE employeeData SET rate = ? WHERE last_name = ?''', (new_hourly_rate, last_name_rate_update))
+  conn.commit()
+
+#Create an update contact information function that will allow the employeeData to update the street address, city, #state, zipcode, and phone number for a given employee. (10 points)
+def update_contact(conn, cursor):
+  print("You have selected update employee information. Please enter the following: ")
+  last_name_detail_update = input("Enter last name: ")
+  update_street_address = input("Enter street address: ")
+  update_city = input("Enter city: ")
+  update_province = input("Enter province: ")
+  update_postal = input("Enter postal: ")
+  update_phone = input("Enter phone number:")
+  cursor.execute('''UPDATE employeeData SET  address = ?, city = ?, province = ?, postal = ?, phone_number = ? WHERE last_name = ?''',(update_street_address, update_city, update_province, update_postal, update_phone, last_name_detail_update))
+  conn.commit()
+
+#Create a delete function that will allow the employeeData to delete a given employee. (10 points)
+def delete_employee(conn,cursor):
+  print("You have selected delete employee: ")
+  delete_by_last_name = input("Input last name: ")
+  print(delete_by_last_name)
+  cursor.execute('''DELETE FROM employeeData WHERE last_name = ?''', (delete_by_last_name,))
+  conn.commit()
+  
+def exit_program():
+  print("Thank you for using Mclovin's Employee Database. Bye!")
+
+#menu function
+def menu():
+#options for 5 reports, 1 add user, and exit program
+  
+  print("\n* * * Mclovin employee directory* * *")
+  print("Choose an option below:")
+  print("\n1 - add new employee")
+  print("\n2 - employee primary info")
+  print("\n3 - employee secondary info")
+  print("\n4 - search employee by last name")
+  print("\n5 - update hourly rate")
+  print("\n6 - update contact info")
+  print("\n7 - delete employee record")
+  print("\n8 - Exit program\n")
+
+#main function that will show menu
+def main():
+  
+  conn = sqlite3.connect("employeeData.db")
+  cursor = conn.cursor()
+  setup_db(conn, cursor)
+  while True:
+    menu()
+    choice = input("Select your option:  ")
+    print()
+     
+    if choice == "1":
+      add_employee(conn, cursor)
+      
+    elif choice == "2":
+      list_employee_primary(conn, cursor)
+    elif choice == "3":
+      list_employee_secondary(conn, cursor)
+    elif choice == "4":
+      search_employee(conn, cursor)
+    elif choice == "5":
+      update_hourly(conn, cursor)
+    elif choice == "6":
+      update_contact(conn, cursor)
+    elif choice == "7":
+      delete_employee(conn, cursor)
+    elif choice == "8":
+      break
+    else:
+      print("Invalid option. Please try again.")
+
+  # save the updates to the database - if you don't commit any updates/inserts to the database will not be saved
+  conn.commit()
+
+  # close the connection
+  conn.close()
+
+  #farewell message
+  print("Thanks for using the employee database.")
+
+if __name__ == "__main__":
+  main()

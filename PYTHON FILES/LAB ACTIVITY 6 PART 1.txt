@@ -1,0 +1,89 @@
+# Jet Yinn
+# 10/24/2022
+# ISIT 333
+# Assignment Lab 6 Part 1
+
+from decimal import Decimal
+from decimal import ROUND_HALF_UP
+
+#display a title
+print("The Invoice program")
+print()
+
+#variable choice
+choice = "y"
+
+#This while loop will get order total from user in variable order_total. Then calculates discount, subtotal, shipping cost, sales tax and invoice total.Then prints the results
+
+#while loop will repeat until choice equals "y"
+while choice == "y":
+    #prompt for order total by user
+    order_total = Decimal(input("Enter order total:  "))
+    order_total = order_total.quantize(Decimal("1.00"), ROUND_HALF_UP)
+    print()
+
+    #determine discount percent
+    #if order_total is greater than 0 and less than 100
+    if order_total > 0 and order_total < 100:
+        discount_percent = Decimal("0")
+
+    #if order_total is greater than or equal to 100 and less than 250
+    elif order_total >= 100 and order_total < 250:
+        discount_percent = Decimal(".1")
+
+    #if order_total is greater than or equal to 250
+    elif order_total >= 250:
+        discount_percent = Decimal(".2")
+
+    #calculate results
+
+    #calculating discount
+    discount = order_total * discount_percent
+    discount = discount.quantize(Decimal("1.00"), ROUND_HALF_UP)
+
+    #calculating subtotal
+    subtotal = order_total - discount
+
+    #initializing shipping cost percent
+    shipping_cost_percent = Decimal(".085")
+
+    #calculating shipping cost
+    shipping_cost = subtotal * shipping_cost_percent
+    shipping_cost = shipping_cost.quantize(Decimal("1.00"), ROUND_HALF_UP)
+
+    #initializing tax percent
+    tax_percent = Decimal(".05")
+
+    #calculating sales tax
+    sales_tax = subtotal * tax_percent
+    sales_tax = sales_tax.quantize(Decimal("1.00"), ROUND_HALF_UP)
+
+    #calculating invoice total
+    invoice_total = subtotal + sales_tax + shipping_cost
+
+    #display the results
+
+    #printing order total
+    print("Order total:    ${:10,}".format(order_total))
+
+    #printing discount amount
+    print("Discount amount: {:10,}".format(discount))
+
+    #printing subtotal
+    print("Subtotal:        {:10,}".format(subtotal))
+
+    #printing shipping cost
+    print("Shipping cost:   {:10,}".format(shipping_cost))
+
+    #printing sales tax
+    print("Sales tax:       {:10,}".format(sales_tax))
+
+    #printing invoice total
+    print("Invoice total:  ${:10,}".format(invoice_total))
+    print()
+
+    #prompt for choice
+    choice = input("Continue? (y/n): ")
+    print()
+
+    print("Bye")

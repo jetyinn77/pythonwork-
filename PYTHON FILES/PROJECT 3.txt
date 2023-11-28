@@ -1,0 +1,132 @@
+print("Jet Yinn\t11/7/2022\tISIT333\n\nProject 3 SQL Lite\n\n")
+# import the sqlite3 database module
+import sqlite3
+global dash
+dash = "-" * 60
+#creates data table
+def setup_db(conn, cursor):
+  
+    # check if the user table already exists, if so, drop it so we can start with a new table
+  cursor.execute("DROP TABLE IF EXISTS user;")
+
+    #create the table if it doesn't already exist
+    # note that primary keys are automatically created in sqlit3 and referenced as rowid
+  cursor.execute("CREATE TABLE IF NOT EXISTS user (first_name TEXT, last_name TEXT, email TEXT, phone TEXT, street_address TEXT, city TEXT, state TEXT, zip_code TEXT )")
+
+    # create some records of data
+  cursor.execute("INSERT INTO user VALUES (\"Derrick\", \"Henry\", \"kinghenry22@yahoo.com\", \"615-900-3528\", \"234 King Street\", \"Nashville\", \"Tennessee\", \"37013\"  )")
+  cursor.execute("INSERT INTO user VALUES (\"Russell\", \"Wilson\", \"russellwilson3@gmail.com\", \"303-800-2456\", \"333 Ride Ave. \", \"Denver\", \"Colorado\", \"80014\"  )")
+  cursor.execute("INSERT INTO user VALUES (\"Geno\", \"Smith\", \"genosmithhawks7@gmail.com\", \"206-070-7777\", \"111 flock street\", \"Seattle\", \"Washington\", \"98033\"  )")
+  cursor.execute("INSERT INTO user VALUES (\"Josh\", \"Allen\", \"joshallenbill17@hotmail.com\", \"915-017-7117\", \"8572 Bills Blvd\", \"Buffalo\", \"New York\", \"14301\"  )")
+  cursor.execute("INSERT INTO user VALUES (\"Christian\", \"McCaffery\", \"cmcrb22@gmail.com\", \"530-890-2348\", \"227 Bay Area\", \"San Fransisco\", \"California\", \"94105\"  )")
+  return cursor
+#pulls names in a list
+def list_names(conn, cursor):
+    # query the table including the rowid primary key value
+  
+  cursor.execute("SELECT rowid, first_name, last_name FROM user")
+
+    # store the results of a the query to a list called users
+  users = cursor.fetchall()
+
+    # now we can loop through the results of the query
+
+  for this_user in users:
+    print("-"*40)
+    print("{0:<2} {1:15} {2:15}".format(this_user[0], this_user[1], this_user[2]))
+#lists names email and address
+def list_contact_info(conn, cursor):
+    # query the table including the rowid primary key value
+  
+  cursor.execute("SELECT rowid, first_name, last_name, email, phone, street_address, state FROM user")
+
+    # store the results of a the query to a list called users
+  users = cursor.fetchall()
+
+    # now we can loop through the results of the query
+  for this_user in users:
+    print("-"*120)
+    print("{:<2} {:<15} {:<15} {:<40} {:<15} {:<15}".format(this_user[0], this_user[1], this_user[2], this_user[3], this_user[4], this_user[5]))
+#names locations
+def list_location(conn, cursor):
+  cursor.execute("SELECT rowid, first_name, last_name, street_address, city, state, zip_code FROM user")
+
+    # store the results of a the query to a list called users
+  users = cursor.fetchall()
+
+    # now we can loop through the results of the query
+  for this_user in users:
+    print("-"*120)
+    print("{:<2} {:<15} {:<15} {:<35} {:<15} {:<15} {:<15}".format(this_user[0], this_user[1], this_user[2], this_user[3], this_user[4], this_user[5], this_user[6]))
+#series of inputs to create a new entry into table 
+def add_user(conn, cursor):
+
+  print("Add New User")
+  print()
+#input the required field data and save to variable
+  input_first_name = input("First Name:  ")
+  input_last_name = input("Last Name:  ")
+  input_email = input("Email Address:  ")
+  input_phone = input("Phone Number:  ")
+  input_street = input("Street Address:  ")
+  input_city = input("City:  ")
+  input_state = input("State:  ")
+  input_zip = input("Zip Code:  ")
+  
+#prepare your insert statement using ? for each item you will insert
+  sql = """INSERT INTO user (first_name, last_name, email, phone, street_address, city, state, zip_code) VALUES (?,?,?,?,?,?,?,?)"""
+
+#execute query from inputs
+  cursor.execute(sql, (input_first_name, input_last_name, input_email, input_phone, input_street, input_city, input_state, input_zip))
+  print(input_first_name, " input has been added. Thank you ")
+  print()
+  return cursor
+  
+#menu function
+def menu():
+  #options for 5 reports, 1 add user, and exit program
+  print("\n* * * Current NFL Player Database * * *")
+  print("\nChoose an option below:")
+  print("\n0 - Initialize Database - Be careful this will wipe all of the data!")
+  print("\n1 - List every Name")
+  print("\n2 - List the Names, phone, and email")
+  print("\n3 - List the Names and location")
+  print("\n4 - Add new User")
+  print("\n5 - Exit program\n")
+
+#main function that will show menu
+def main():
+  
+  #cursor = conn.cursor()
+  conn = sqlite3.connect("myDatabase.db")
+  cursor = conn.cursor()
+  while True:
+    menu()
+    choice = input("Select your option:  ")
+    print()
+    if choice == "0":
+      cursor = setup_db(conn, cursor)
+    elif choice == "1":
+      list_names(conn, cursor)
+    elif choice == "2":
+      list_contact_info(conn, cursor)
+    elif choice == "3":
+      list_location(conn, cursor)
+    elif choice == "4":
+      cursor = add_user(conn, cursor)
+    elif choice == "5":
+      break
+    else:
+      print("Invalid option. Please try again.")
+
+    # save the updates to the database - if you don't commit any updates/inserts to the database will not be saved
+  conn.commit()
+
+    # close the connection
+  conn.close()
+
+    #farewell
+  print("Thanks for using our NFL player database it was a pleasure!.")
+
+if __name__ == "__main__":
+  main()
